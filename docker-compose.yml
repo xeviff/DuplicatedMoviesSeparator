@@ -1,0 +1,7 @@
+---
+version: "2.1"
+services:
+  duplicated-movies-separator:
+    image: duplicated-movies-separator:latest
+    volumes:
+      - /mnt/mangrana_pelis:/movies
