@@ -31,7 +31,7 @@ public class DuplicatedMoviesSeparator {
         try {
             checkDirectory();
             separateDuplicatedFromAllRootFolders();
-        } catch (IncorrectWorkingPathException | IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             if (e.getMessage().contains("HTTP 504")) {
                 log("Found a timeout, then retrying...");
@@ -62,7 +62,10 @@ public class DuplicatedMoviesSeparator {
         log("going to retrieve ALL root folders info");
         RadarrAPIInterface proxy = apiInterfaceBuilder.buildProxy();
         List<RootFolder> rootFolders = proxy.getRootFolders(API_KEY);
-        rootFolders.forEach(this::separateDuplicatedMoviesFolder);
+        rootFolders
+                .stream()
+                .filter(rootFolder -> !rootFolder.getUnmappedFolders().isEmpty())
+                .forEach(this::separateDuplicatedMoviesFolder);
     }
 
     @SuppressWarnings("unused")
