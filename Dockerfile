@@ -2,6 +2,8 @@ FROM maven:alpine as build
 ENV HOME=/usr/app
 RUN mkdir -p $HOME
 WORKDIR $HOME
+ADD pom.xml $HOME
+RUN mvn verify --fail-never
 ADD . $HOME
 RUN mvn clean package
 
